@@ -90,13 +90,20 @@ const cart = [];
 
 function displayProducts() {
   products.forEach((product) => {
-    const singleProduct = document.createElement("div");
-    singleProduct.classList.add("col");
-    singleProduct.innerHTML = `<div class="card">
-     <div class="position-relative">
-      <img src="${product.image}" class="card-img-top" alt="${product.name}">
-      <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger border border-light">Discount: ${product.discount}%</span>
-     </div>
+    const singleProduct = createProductElement(product);
+    productsDiv.appendChild(singleProduct);
+  });
+}
+
+function createProductElement(product) {
+  const singleProduct = document.createElement("div");
+  singleProduct.classList.add("col");
+  singleProduct.innerHTML = `
+    <div class="card">
+      <div class="position-relative">
+        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+        <span class="position-absolute top-0 end-0 translate-middle badge rounded-pill bg-danger border border-light">Discount: ${product.discount}%</span>
+      </div>
       <div class="card-body">
         <h5 class="card-title fs-4 fw-bold">${product.name}</h5>
         <p class="fs-3 fw-bold">$<span>${product.price}</span></p>
@@ -113,8 +120,7 @@ function displayProducts() {
         <button class="btn btn-primary" onclick='addToCart("${product.id}")'>Add to Cart</button>
       </div>
     </div>`;
-    productsDiv.appendChild(singleProduct);
-  });
+  return singleProduct;
 }
 
 // Add to cart function
@@ -122,17 +128,22 @@ function displayProducts() {
 function addToCart(id) {
   const cartProduct = products.find((item) => item.id === id);
 
-  // Check if the product already exists in the cart
+  if (!cartProduct) {
+    alert("Invalid product ID:", id);
+    return;
+  }
+
   const isDuplicate = cart.some((item) => item.id === cartProduct.id);
 
   if (!isDuplicate) {
-    cart.push(cartProduct);
+    cart.push({ ...cartProduct, quantity: 1 });
     displayCartElements();
   } else {
     alert("Product already exists in the cart.");
   }
 }
 
+// Display Cart Items into the cart section
 function displayCartElements() {
   const cartItem = document.getElementById("cartItem");
   cartItem.innerHTML = ""; // Clear existing content
@@ -144,35 +155,7 @@ function displayCartElements() {
     cartItem.appendChild(p);
   } else {
     cart.forEach((item) => {
-      const cartProduct = document.createElement("div");
-      cartProduct.innerHTML = `
-        <hr class="my-4">
-        <div class="mb-4 d-flex justify-content-between align-items-center">
-          <div class="">
-            <img src="${item.image}" class="cartImgW rounded-3" alt="${item.name}">
-          </div>
-          <div class="">
-            <h6 class="text-black">${item.name}</h6>
-            <h6 class="text-muted mb-0">Discount: ${item.discount}%</h6>
-          </div>
-          <div class="d-flex">
-            <button class="btn text-dark px-2" onclick="decreaseQuantity('${item.id}')">
-              <i class="bi bi-dash"></i>
-            </button>
-    
-            <input id="quantity-${item.id}" min="0" name="quantity" value="1" type="number" class="form-control cartInputBoxW" onchange="updateCartItem('${item.id}', this.value)"/>
-    
-            <button class="btn text-dark px-2" onclick="increaseQuantity('${item.id}')">
-              <i class="bi bi-plus"></i>
-            </button>
-          </div>
-          <div class="">
-            <h6 id="price-${item.id}" class="mb-0 fs-5">$${item.price}</h6>
-          </div>
-          <div class="text-end" onclick="removeItemFromCart('${item.id}')">
-            <a href="#!" class="text-danger"><i class="bi bi-trash"></i></a>
-          </div>
-        </div>`;
+      const cartProduct = createCartItemElement(item);
       cartItem.appendChild(cartProduct);
     });
   }
@@ -180,17 +163,60 @@ function displayCartElements() {
   calculateSubTotal();
 }
 
-// Remove Individual Item
-function removeItemFromCart(id) {
-  const getIndex = cart.findIndex((item) => item.id === id);
-  if (getIndex !== -1) {
-    cart.splice(getIndex, 1); // Remove the item from the cart array
-    displayCartElements();
-  }
+function createCartItemElement(item) {
+  const cartProduct = document.createElement("div");
+  cartProduct.innerHTML = `
+    <hr class="my-4">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+      <div class="">
+        <img src="${item.image}" class="cartImgW rounded-3" alt="${item.name}">
+      </div>
+      <div class="">
+        <h6 class="text-black">${item.name}</h6>
+        <h6 class="text-muted mb-0">Discount: ${item.discount}%</h6>
+      </div>
+      <div class="d-flex">
+        <button class="btn text-dark px-2" onclick="decreaseQuantity('${
+          item.id
+        }')">
+          <i class="bi bi-dash"></i>
+        </button>
+        <input id="quantity-${item.id}" min="0" name="quantity" value="${
+    item.quantity
+  }" type="number" class="form-control cartInputBoxW" onchange="updateCartItem('${
+    item.id
+  }', this.value)"/>
+        <button class="btn text-dark px-2" onclick="increaseQuantity('${
+          item.id
+        }')">
+          <i class="bi bi-plus"></i>
+        </button>
+      </div>
+      <div class="">
+        <h6 id="price-${item.id}" class="mb-0 fs-5">$${(
+    item.price * item.quantity
+  ).toFixed(2)}</h6>
+      </div>
+      <div class="text-end" onclick="removeItemFromCart('${item.id}')">
+        <a href="#!" class="text-danger"><i class="bi bi-trash"></i></a>
+      </div>
+    </div>`;
+  return cartProduct;
 }
 
+// Remove Individual Item
+function removeItemFromCart(id) {
+  const index = cart.findIndex((item) => item.id === id);
+  if (index !== -1) {
+    cart.splice(index, 1); // Remove the item from the cart array
+    displayCartElements();
+  } else {
+    alert("Invalid product ID:", id);
+  }
+}
+// Clear the cart array
 document.getElementById("cleanCart").addEventListener("click", function () {
-  cart.length = 0; // Clear the cart array
+  cart.length = 0;
   displayCartElements();
 });
 
@@ -213,22 +239,31 @@ function decreaseQuantity(id) {
 // Update Cart item after increasing or decreasing the item quantity
 function updateCartItem(id, quantity) {
   const product = cart.find((item) => item.id === id);
-  if (product) {
-    product.quantity = parseFloat(quantity);
-    const priceElement = document.getElementById(`price-${id}`);
-    priceElement.innerText = `$${product.price * product.quantity}`;
-    calculateSubTotal();
+
+  if (!product) {
+    alert("Invalid product ID:", id);
+    return;
   }
+
+  if (isNaN(quantity)) {
+    alert("Invalid quantity:", quantity);
+    return;
+  }
+
+  product.quantity = parseInt(quantity);
+  const priceElement = document.getElementById(`price-${id}`);
+  priceElement.innerText = `$${(product.price * product.quantity).toFixed(2)}`;
+  calculateSubTotal();
 }
 
 // Calculate sub-total of all item from the cart
 function calculateSubTotal() {
   const subTotalElement = document.getElementById("subTotal");
-  let subTotal = 0;
-  cart.forEach((item) => {
-    subTotal += item.price * item.quantity;
-  });
-  subTotalElement.innerText = subTotal == 0 ? "00" : `${subTotal.toFixed(2)}`;
+  const subTotal = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  subTotalElement.innerText = subTotal === 0 ? "00" : subTotal.toFixed(2);
 }
 
 // Update Cart Badge
