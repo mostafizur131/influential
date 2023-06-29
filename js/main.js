@@ -1,3 +1,13 @@
+const openCart = document.getElementById("openCart");
+const cartBody = document.getElementById("cartBody");
+const closeCart = document.getElementById("closeCart");
+openCart.addEventListener("click", () => {
+  cartBody.classList.add("active");
+});
+closeCart.addEventListener("click", () => {
+  cartBody.classList.remove("active");
+});
+
 const products = [
   {
     id: "001",
@@ -86,10 +96,67 @@ function displayProducts() {
                                 </ul>
                                 <span class="fw-bold p-0 m-0">${product.ratings}</span>
                             </div>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
+                        <button class="btn btn-primary" onclick='addToCart("${product.id}")'>Add to Cart</button>
                     </div>
                 </div>`;
     productsDiv.appendChild(singleProduct);
   });
 }
 displayProducts();
+
+// Add to cart function
+const cart = [];
+const newCart = new Set(...cart);
+function addToCart(id) {
+  const cartProduct = products.find((item) => item.id === id);
+  cart.push(cartProduct);
+  displayCartElements();
+}
+function displayCartElements() {
+  const cartItem = document.getElementById("cartItem");
+  if (cart.length === 0) {
+    const p = document.createElement("p");
+    p.classList.add("fs-3", "text-dark");
+    p.innerText = "Cart is empty";
+    cartItem.appendChild(p);
+  } else {
+    cart.map((item) => {
+      cartItem.innerHTML = `<div class="card rounded-3 mb-4">
+        <div class="card-body p-4">
+            <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                    <img src="${item.image}"
+                        class="img-thumbnail rounded-3" alt="${item.name}">
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                    <p class="lead fw-normal mb-2">${item.name}</p>
+                    <p>Ratings : ${item.ratings} </p>
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                    <button class="btn btn-link px-2"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                        <i class="bi bi-dash"></i>
+                    </button>
+    
+                    <input id="form1" min="0" name="quantity" value="2" type="number"
+                        class="form-control form-control-sm" />
+    
+                    <button class="btn btn-link px-2"
+                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                    <h5 class="mb-0">$499.00</h5>
+                </div>
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                    <a href="#!" class="text-danger"><i class="bi bi-trash fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    });
+  }
+}
+
+displayCartElements();
