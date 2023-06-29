@@ -284,8 +284,8 @@ function calculateTotal() {
   const shippingElement = document.getElementById("shippingCost");
   const shipping = parseFloat(shippingElement.innerText);
 
+  // Promo Code
   let total = null;
-
   if (promoCode === "TAHSIN") {
     const discount = 0.05 * subTotal;
     total = subTotal - discount + shipping;
