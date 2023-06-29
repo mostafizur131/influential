@@ -30,11 +30,11 @@
             <div class="container">
                 <a class="navbar-brand fs-1 text-light" href="#">Influential</a>
                 <button id="openCart" class="btn position-relative" type="button" ><i class="bi bi-cart3 fs-2 text-light"></i>
-                    <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger">0</span>
+                    <span id="cartBadge" class="position-absolute top-0 end-0 badge rounded-pill bg-danger"></span>
                 </button>
                 
                 <div id="cartBody" class="cartBody">
-                    <div class="offcanvas-header">
+                    <div class="offcanvas-header mb-3">
                         <h5 class="offcanvas-title" >Shopping Cart</h5>
                         <button type="button" class="btn-close" id="closeCart"></button>
                     </div>
@@ -42,30 +42,29 @@
                         <div id="cartItem">
 
                         </div>
-                        <div>
-                            <hr class="my-4">
+                        <hr class="mb-3 mt-5">
+                        <div class="w-50 ms-auto">
                             
                             <div class="d-flex justify-content-between">
-                                <p class="mb-2">Subtotal</p>
-                                <p class="mb-2">$4798.00</p>
+                                <p class="mb-2 fs-6 fw-bold">Subtotal</p>
+                                <p class="mb-2 fs-6 fw-bold">$4798.00</p>
                             </div>
                             
                             <div class="d-flex justify-content-between">
-                                <p class="mb-2">Shipping</p>
-                                <p class="mb-2">$20.00</p>
+                                <p class="mb-2 fs-6 fw-bold">Shipping</p>
+                                <p class="mb-2 fs-6 fw-bold">$20.00</p>
                             </div>
                             
                             <div class="d-flex justify-content-between mb-4">
-                                <p class="mb-2">Total(Incl. taxes)</p>
-                                <p class="mb-2">$4818.00</p>
+                                <p class="mb-2 fs-6 fw-bold">Total(Incl. taxes)</p>
+                                <p class="mb-2 fs-6 fw-bold">$4818.00</p>
                             </div>
                             
-                            <button type="button" class="btn btn-info btn-block btn-lg">
-                                <div class="d-flex justify-content-between">
-                                    <span>$4818.00</span>
-                                    <span>Checkout <i class="bi bi-long-arrow-alt-right ms-2"></i></span>
-                                </div>
-                            </button>
+                            
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-info "><span>Checkout</span></button>
+                                <button id="cleanCart" type="button" class="btn btn-danger ms-2 "><span>Clean Cart</span></button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,40 +82,6 @@
 
     </section>
 
-    <div class="card rounded-3 mb-4">
-        <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-md-2 col-lg-2 col-xl-2">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-3">
-                    <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                    <p>Ratings : </p>
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                    <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                        <i class="bi bi-dash"></i>
-                    </button>
-    
-                    <input id="form1" min="0" name="quantity" value="2" type="number"
-                        class="form-control form-control-sm" />
-    
-                    <button class="btn btn-link px-2"
-                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                        <i class="bi bi-plus"></i>
-                    </button>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <h5 class="mb-0">$499.00</h5>
-                </div>
-                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                    <a href="#!" class="text-danger"><i class="bi bi-trash fa-lg"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Start Footer Section MarkUp -->
     <footer class="container-fluid text-center bg-dark text-light py-5">
         <div class="row">
@@ -137,49 +102,6 @@
     </footer>
     <!-- End Footer Section MarkUp -->
 
-    <!-- Cart Section -->
-    <!-- <button class="btn position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling"><i class="bi bi-cart3 fs-2 text-light"></i>
-        <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger">0</span>
-    </button>
-    
-    <div class="offcanvas offcanvas-end " data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Shopping Cart</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div id="cartBody" class="offcanvas-body">
-            <div id="cartItem">
-    
-            </div>
-            <div>
-                <hr class="my-4">
-    
-                <div class="d-flex justify-content-between">
-                    <p class="mb-2">Subtotal</p>
-                    <p class="mb-2">$4798.00</p>
-                </div>
-    
-                <div class="d-flex justify-content-between">
-                    <p class="mb-2">Shipping</p>
-                    <p class="mb-2">$20.00</p>
-                </div>
-    
-                <div class="d-flex justify-content-between mb-4">
-                    <p class="mb-2">Total(Incl. taxes)</p>
-                    <p class="mb-2">$4818.00</p>
-                </div>
-    
-                <button type="button" class="btn btn-info btn-block btn-lg">
-                    <div class="d-flex justify-content-between">
-                        <span>$4818.00</span>
-                        <span>Checkout <i class="bi bi-long-arrow-alt-right ms-2"></i></span>
-                    </div>
-                </button>
-            </div>
-        </div>
-    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"

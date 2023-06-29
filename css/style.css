@@ -4,7 +4,7 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 40%;
+    width: 45%;
     min-height: 100vh;
     padding: 20px;
     background: #fff;
@@ -16,6 +16,15 @@
     right: 0;
 }
 
+.cartImgW {
+    width: 100px;
+    height: 100px;
+    border: 1px solid rgba(54, 53, 53, 0.7);
+}
+
+.cartInputBoxW{
+    width: 70px;
+}
 
 
 
@@ -53,5 +62,7 @@
     .cartBody {
             width: 95%;
         }
-
+    .cartImgW {
+        display:  none;
+    }
 }
