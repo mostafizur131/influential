@@ -1,4 +1,4 @@
-## Influential is fully functional, dynamic, interactive shopping/e-commerce web-application.
+## Influential is fully functional, dynamic, interactive and fully responsive shopping/e-commerce web-application.
 
 ### Technology / Language / Framework
 

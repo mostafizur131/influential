@@ -161,6 +161,7 @@ function displayCartElements() {
   }
   updateCartBadge();
   calculateSubTotal();
+  shippingCost();
 }
 
 function createCartItemElement(item) {
@@ -173,7 +174,7 @@ function createCartItemElement(item) {
       </div>
       <div class="">
         <h6 class="text-black">${item.name}</h6>
-        <h6 class="text-muted mb-0">Discount: ${item.discount}%</h6>
+        <h6 class="text-warning mb-0">Rating: ${item.ratings}</h6>
       </div>
       <div class="d-flex">
         <button class="btn text-dark px-2" onclick="decreaseQuantity('${
@@ -253,6 +254,7 @@ function updateCartItem(id, quantity) {
   product.quantity = parseInt(quantity);
   const priceElement = document.getElementById(`price-${id}`);
   priceElement.innerText = `$${(product.price * product.quantity).toFixed(2)}`;
+
   calculateSubTotal();
 }
 
@@ -273,5 +275,14 @@ function updateCartBadge() {
   cartBadge.innerText = cartItems > 0 ? cartItems : 0;
 }
 updateCartBadge();
+
+// Shipping Cost Calculation
+function shippingCost() {
+  const shippingElement = document.getElementById("shippingCost");
+  const cartLength = cart.length === 0 ? 1 : cart.length;
+
+  const total = cartLength * 10;
+  shippingElement.innerText = cart.length === 0 ? "00" : total;
+}
 
 displayProducts();
