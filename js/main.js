@@ -16,7 +16,7 @@ const products = [
     image: "../images/action.png",
     price: 380.0,
     ratings: 4.99,
-    discount: 10,
+    discount: 5,
   },
   {
     id: "002",
@@ -32,7 +32,7 @@ const products = [
     image: "../images/camera.png",
     price: 1800.0,
     ratings: 4.99,
-    discount: 10,
+    discount: 5,
   },
   {
     id: "004",
@@ -40,7 +40,7 @@ const products = [
     image: "../images/lights.png",
     price: 820.4,
     ratings: 4.99,
-    discount: 10,
+    discount: 5,
   },
   {
     id: "005",
@@ -48,7 +48,7 @@ const products = [
     image: "../images/setup.png",
     price: 1200.0,
     ratings: 4.99,
-    discount: 15,
+    discount: 5,
   },
   {
     id: "006",
@@ -56,7 +56,7 @@ const products = [
     image: "../images/drone.png",
     price: 980.25,
     ratings: 4.99,
-    discount: 10,
+    discount: 5,
   },
   {
     id: "007",
@@ -162,6 +162,7 @@ function displayCartElements() {
   updateCartBadge();
   calculateSubTotal();
   shippingCost();
+  calculateTotal();
 }
 
 function createCartItemElement(item) {
@@ -256,6 +257,7 @@ function updateCartItem(id, quantity) {
   priceElement.innerText = `$${(product.price * product.quantity).toFixed(2)}`;
 
   calculateSubTotal();
+  calculateTotal();
 }
 
 // Calculate sub-total of all item from the cart
@@ -266,6 +268,32 @@ function calculateSubTotal() {
     0
   );
   subTotalElement.innerText = subTotal === 0 ? "00" : subTotal.toFixed(2);
+}
+
+// Calculate Total Cost
+let promoCode = null;
+document.getElementById("promoCodeBtn").addEventListener("click", () => {
+  const getPromoCode = document.getElementById("promoCode");
+  promoCode = getPromoCode.value;
+  calculateTotal();
+});
+function calculateTotal() {
+  const totalElement = document.getElementById("total");
+  const subTotalElement = document.getElementById("subTotal");
+  const subTotal = parseFloat(subTotalElement.innerText);
+  const shippingElement = document.getElementById("shippingCost");
+  const shipping = parseFloat(shippingElement.innerText);
+
+  let total = null;
+
+  if (promoCode === "TAHSIN") {
+    const discount = 0.05 * subTotal;
+    total = subTotal - discount + shipping;
+  } else {
+    total = subTotal + shipping;
+  }
+
+  totalElement.innerText = total == 0 ? "00" : total.toFixed(2);
 }
 
 // Update Cart Badge

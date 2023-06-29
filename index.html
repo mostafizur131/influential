@@ -38,26 +38,38 @@
                         <h5 class="offcanvas-title" >Shopping Cart</h5>
                         <button type="button" class="btn-close" id="closeCart"></button>
                     </div>
+                    <div id="showPromoCode" class="alert alert-primary alert-dismissible fade show text-light text-center bg-primary rounded-2 p-2">
+                        <p class="fs-6 fw-semibold py-1 m-0">5% discount on applying promo code : <span class="fs-5 fw-bolder">TAHSIN</span></p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
                     <div  class="offcanvas-body">
                         <div id="cartItem">
 
                         </div>
                         <hr class="mb-3 mt-5">
-                        <div class="w-50 ms-auto">
+                        <div class="w-75 ms-auto">
                             
-                            <div class="d-flex justify-content-between">
-                                <p class="mb-2 fs-6 fw-bold">Subtotal</p>
-                                <p class="mb-2 fs-6 fw-bold">$<span id="subTotal"></span></p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <p class=" fs-6 fw-bold">Subtotal : </p>
+                                <p class=" fs-6 fw-bold">$<span id="subTotal"></span></p>
                             </div>
                             
-                            <div class="d-flex justify-content-between">
-                                <p class="mb-2 fs-6 fw-bold">Shipping <span class="text-muted">$10 per item</span></p>
-                                <p class="mb-2 fs-6 fw-bold">$<span id="shippingCost"></span></p>
+                            <div class="d-flex justify-content-between mb-2">
+                                <p class=" fs-6 fw-bold">Shipping : <span class="text-muted">$10 per item</span></p>
+                                <p class=" fs-6 fw-bold">$<span id="shippingCost"></span></p>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <p class=" fs-6 fw-bold">Promo Code : </p>
+                                <input id="promoCode"  class="promoCode"/>
+                                <button id="promoCodeBtn" type="button" class="promoBtn">
+                                    Apply
+                                </button>
                             </div>
                             
                             <div class="d-flex justify-content-between mb-4">
-                                <p class="mb-2 fs-6 fw-bold">Total(Incl. taxes)</p>
-                                <p class="mb-2 fs-6 fw-bold">$4818.00</p>
+                                <p class=" fs-6 fw-bold">Total : </p>
+                                <p class=" fs-6 fw-bold">$<span id="total"></span></p>
                             </div>
                             
                             
