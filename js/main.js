@@ -152,24 +152,24 @@ function displayCartElements() {
             <img src="${item.image}" class="cartImgW rounded-3" alt="${item.name}">
           </div>
           <div class="">
-            <h6 class="text-muted">${item.name}</h6>
-            <h6 class="text-black mb-0">Discount: ${item.discount}%</h6>
+            <h6 class="text-black">${item.name}</h6>
+            <h6 class="text-muted mb-0">Discount: ${item.discount}%</h6>
           </div>
           <div class="d-flex">
-            <button class="btn text-dark px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+            <button class="btn text-dark px-2" onclick="decreaseQuantity('${item.id}')">
               <i class="bi bi-dash"></i>
             </button>
     
-            <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control cartInputBoxW" />
+            <input id="quantity-${item.id}" min="0" name="quantity" value="1" type="number" class="form-control cartInputBoxW" onchange="updateCartItem('${item.id}', this.value)"/>
     
-            <button class="btn text-dark px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+            <button class="btn text-dark px-2" onclick="increaseQuantity('${item.id}')">
               <i class="bi bi-plus"></i>
             </button>
           </div>
           <div class="">
-            <h6 class="mb-0 fs-5">$${item.price}</h6>
+            <h6 id="price-${item.id}" class="mb-0 fs-5">$${item.price}</h6>
           </div>
-          <div class="text-end">
+          <div class="text-end" onclick="removeItemFromCart('${item.id}')">
             <a href="#!" class="text-danger"><i class="bi bi-trash"></i></a>
           </div>
         </div>`;
@@ -177,6 +177,16 @@ function displayCartElements() {
     });
   }
   updateCartBadge();
+  calculateSubTotal();
+}
+
+// Remove Individual Item
+function removeItemFromCart(id) {
+  const getIndex = cart.findIndex((item) => item.id === id);
+  if (getIndex !== -1) {
+    cart.splice(getIndex, 1); // Remove the item from the cart array
+    displayCartElements();
+  }
 }
 
 document.getElementById("cleanCart").addEventListener("click", function () {
@@ -184,6 +194,44 @@ document.getElementById("cleanCart").addEventListener("click", function () {
   displayCartElements();
 });
 
+// Increase Quantity of individual product
+function increaseQuantity(id) {
+  const quantityInput = document.getElementById(`quantity-${id}`);
+  const quantity = parseFloat(quantityInput.value);
+  quantityInput.value = quantity + 1;
+  updateCartItem(id, quantity + 1);
+}
+
+// Decrease Quantity of individual product
+function decreaseQuantity(id) {
+  const quantityInput = document.getElementById(`quantity-${id}`);
+  const quantity = parseFloat(quantityInput.value);
+  quantityInput.value = quantity - 1;
+  updateCartItem(id, quantity - 1);
+}
+
+// Update Cart item after increasing or decreasing the item quantity
+function updateCartItem(id, quantity) {
+  const product = cart.find((item) => item.id === id);
+  if (product) {
+    product.quantity = parseFloat(quantity);
+    const priceElement = document.getElementById(`price-${id}`);
+    priceElement.innerText = `$${product.price * product.quantity}`;
+    calculateSubTotal();
+  }
+}
+
+// Calculate sub-total of all item from the cart
+function calculateSubTotal() {
+  const subTotalElement = document.getElementById("subTotal");
+  let subTotal = 0;
+  cart.forEach((item) => {
+    subTotal += item.price * item.quantity;
+  });
+  subTotalElement.innerText = subTotal == 0 ? "00" : `${subTotal.toFixed(2)}`;
+}
+
+// Update Cart Badge
 function updateCartBadge() {
   const cartItems = cart.length;
   const cartBadge = document.getElementById("cartBadge");
