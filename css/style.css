@@ -17,8 +17,8 @@
 }
 
 .cartImgW {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 80px;
     border: 1px solid rgba(54, 53, 53, 0.7);
 }
 
@@ -45,6 +45,12 @@
     font-weight: bold;
     color: #fff;
     background: #0d6efd;
+}
+
+#cartItem{
+    height: 58vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 

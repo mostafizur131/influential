@@ -45,15 +45,15 @@ export function displayCartElements() {
 function createCartItemElement(item) {
   const cartProduct = document.createElement("div");
   cartProduct.innerHTML = `
-    <hr class="my-4">
-    <div class="mb-4 d-flex justify-content-between align-items-center">
-      <div>
+    <hr class="my-2">
+    <div class=" d-flex justify-content-between align-items-center">
+     
         <figure>
           <img src="${item.image}" class="cartImgW rounded-3" alt="${
     item.name
   }">
         </figure>
-      </div>
+     
       <div>
         <h6 class="text-black">${item.name}</h6>
         <h6 class="text-warning mb-0">Rating: ${item.ratings}</h6>
@@ -167,9 +167,13 @@ function calculateSubTotal() {
 // Calculate Total Cost
 let promoCode = null;
 document.getElementById("promoCodeBtn").addEventListener("click", () => {
-  const getPromoCode = document.getElementById("promoCode");
-  promoCode = getPromoCode.value;
-  calculateTotal();
+  const getPromoCode = document.getElementById("promoCode").value;
+  if (getPromoCode === "TAHSIN") {
+    promoCode = getPromoCode;
+    calculateTotal();
+  } else if (getPromoCode !== "TAHSIN") {
+    alert("Invalid promo code. Please try again.");
+  }
 });
 
 function calculateTotal() {
@@ -179,13 +183,11 @@ function calculateTotal() {
   const shippingElement = document.getElementById("shippingCost");
   const shipping = parseFloat(shippingElement.innerText);
 
-  // Promo Code
-  let total = null;
+  let total = subTotal + shipping;
+
   if (promoCode === "TAHSIN") {
     const discount = 0.05 * subTotal;
     total = subTotal - discount + shipping;
-  } else {
-    total = subTotal + shipping;
   }
 
   totalElement.innerText = total === 0 ? "00" : total.toFixed(2);
