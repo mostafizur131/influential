@@ -63,6 +63,3 @@ document.getElementById("cleanCart").addEventListener("click", function () {
 });
 
 displayProducts();
-//as a JavaScript code expert can you please carefully  go through  and organize or divide this code into ES6 module system and separate the code into individual JS file like product.js cart.js and main.js
-
-// dynamic structure could nit catch the functions can't call the functions
